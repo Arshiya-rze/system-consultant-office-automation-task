@@ -1,1 +1,34 @@
-<p>login works!</p>
+<div class="login-page">
+  <div class="card">
+    <h2>ورود</h2>
+    <p class="subtitle">برای ورود، نام کاربری و رمز عبور را وارد کنید.</p>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" class="form">
+      <label class="field">
+        <span>نام کاربری</span>
+        <input type="text" formControlName="username" placeholder="مثلاً arshiya" />
+        <small class="error" *ngIf="form.controls.username.touched && form.controls.username.invalid">
+          نام کاربری الزامی است.
+        </small>
+      </label>
+
+      <label class="field">
+        <span>رمز عبور</span>
+        <input type="password" formControlName="password" placeholder="********" />
+        <small class="error" *ngIf="form.controls.password.touched && form.controls.password.invalid">
+          رمز عبور الزامی است.
+        </small>
+      </label>
+
+      <div class="error-box" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <button class="btn" type="submit">ورود</button>
+
+      <p class="hint">
+        ورود فیک است: هر مقدار غیرخالی برای نام کاربری/رمز عبور پذیرفته می‌شود.
+      </p>
+    </form>
+  </div>
+</div>
