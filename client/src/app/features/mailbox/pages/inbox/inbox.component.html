@@ -1,1 +1,15 @@
-<p>inbox works!</p>
+<h2>Inbox</h2>
+
+<div class="list" *ngIf="inbox.length; else empty">
+  <a class="row" *ngFor="let m of inbox" [routerLink]="['/app/message-view', m.id]">
+    <div class="subject">{{ m.subject }}</div>
+    <div class="meta">
+      <span>From: {{ m.from }}</span>
+      <span>{{ m.createdAt | date:'medium' }}</span>
+    </div>
+  </a>
+</div>
+
+<ng-template #empty>
+  <div class="empty">هیچ نامه‌ای در Inbox وجود ندارد.</div>
+</ng-template>

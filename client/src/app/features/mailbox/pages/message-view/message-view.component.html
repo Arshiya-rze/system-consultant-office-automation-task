@@ -1,1 +1,32 @@
-<p>message-view works!</p>
+<div *ngIf="message; else notFound" class="card">
+  <div class="top">
+    <h2>{{ message.subject }}</h2>
+
+    <div class="actions">
+      <button class="btn" type="button">Reply</button>
+      <button class="btn" type="button">Forward</button>
+      <a class="btn" routerLink="/app/inbox">Back</a>
+    </div>
+  </div>
+
+  <div class="meta">
+    <div><b>From:</b> {{ message.from }}</div>
+    <div><b>To:</b> {{ message.to }}</div>
+    <div><b>Date:</b> {{ message.createdAt | date:'medium' }}</div>
+  </div>
+
+  <pre class="body">{{ message.body }}</pre>
+
+  <div class="attach" *ngIf="message.attachments.length">
+    <h4>Attachments</h4>
+    <ul>
+      <li *ngFor="let a of message.attachments">
+        {{ a.name }} — {{ a.type }} — {{ a.size }} bytes
+      </li>
+    </ul>
+  </div>
+</div>
+
+<ng-template #notFound>
+  <div class="empty">نامه پیدا نشد.</div>
+</ng-template>

@@ -1,0 +1,54 @@
+.card { 
+    border: 1px solid #eee; 
+    border-radius: 12px; 
+    padding: 16px; 
+}
+
+.top { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: start; 
+    gap: 12px; 
+}
+
+.actions { 
+    display: flex; 
+    gap: 8px; 
+    flex-wrap: wrap; 
+}
+
+.btn {
+  padding: 8px 10px;
+  border: 1px solid #ddd;
+  background: #fff;
+  border-radius: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  color: #222;
+}
+
+.meta { 
+    margin: 12px 0; 
+    display: grid; 
+    gap: 6px; 
+    color: #444; 
+}
+
+.body { 
+    white-space: pre-wrap; 
+    background: #fafafa; 
+    border: 1px solid #eee; 
+    border-radius: 10px; 
+    padding: 12px; 
+}
+
+.attach { 
+    margin-top: 12px; 
+}
+
+.empty { 
+    padding: 12px; 
+    border: 1px dashed #ddd; 
+    border-radius: 12px; 
+    color: #666; 
+}
