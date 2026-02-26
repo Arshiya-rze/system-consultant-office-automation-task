@@ -7,7 +7,7 @@ const LS_MESSAGES_KEY = 'demo_messages';
   providedIn: 'root'
 })
 export class MailboxService {
-  seedMockDataIfEmpty(): void {
+   seedMockDataIfEmpty(): void {
     const existing = this.getAll();
     if (existing.length > 0) return;
 
@@ -31,9 +31,7 @@ export class MailboxService {
         subject: 'فرم اطلاعات پرسنلی',
         body: 'فرم پیوست را تکمیل و ارسال کنید.',
         createdAt: new Date(now.getTime() - 2 * 86400000).toISOString(),
-        attachments: [
-          { name: 'form.pdf', size: 245_120, type: 'application/pdf' },
-        ],
+        attachments: [{ name: 'form.pdf', size: 245_120, type: 'application/pdf' }],
       },
     ];
 
@@ -86,6 +84,46 @@ export class MailboxService {
     this.setAll(all);
 
     return msg;
+  }
+
+  createReplyDraft(original: Message): MessageDraft {
+    return {
+      to: original.from,
+      subject: this.prefixSubject('Re: ', original.subject),
+      body: this.buildQuotedBody(original),
+      attachments: [],
+    };
+  }
+
+  createForwardDraft(original: Message): MessageDraft {
+    return {
+      to: '',
+      subject: this.prefixSubject('Fwd: ', original.subject),
+      body: this.buildQuotedBody(original),
+      attachments: [],
+    };
+  }
+
+  private prefixSubject(prefix: string, subject: string): string {
+    const s = (subject ?? '').trim();
+    if (s.toLowerCase().startsWith(prefix.toLowerCase())) return s;
+    return `${prefix}${s}`;
+  }
+
+  private buildQuotedBody(original: Message): string {
+    const dt = new Date(original.createdAt).toLocaleString();
+    return [
+      '',
+      '-----------------------------',
+      `From: ${original.from}`,
+      `To: ${original.to}`,
+      `Date: ${dt}`,
+      `Subject: ${original.subject}`,
+      '',
+      original.body ?? '',
+      '-----------------------------',
+      '',
+    ].join('\n');
   }
 
   private getAll(): Message[] {

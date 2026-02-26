@@ -3,8 +3,8 @@
     <h2>{{ message.subject }}</h2>
 
     <div class="actions">
-      <button class="btn" type="button">Reply</button>
-      <button class="btn" type="button">Forward</button>
+      <button class="btn" type="button" (click)="reply()">Reply</button>
+      <button class="btn" type="button" (click)="forward()">Forward</button>
       <a class="btn" routerLink="/app/inbox">Back</a>
     </div>
   </div>

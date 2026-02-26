@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
-import { Attachment } from '../../models/mail.model';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { Attachment, MessageDraft } from '../../models/mail.model';
 import { MailboxService } from '../../services/mailbox.service';
 
 @Component({
@@ -15,6 +15,7 @@ export class ComposeComponent {
   private fb = inject(FormBuilder);
   private mailbox = inject(MailboxService);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
   attachments: Attachment[] = [];
 
@@ -23,6 +24,37 @@ export class ComposeComponent {
     subject: ['', [Validators.required]],
     body: [''],
   });
+
+  constructor() {
+    const qp = this.route.snapshot.queryParamMap;
+
+    const replyTo = qp.get('replyTo');
+    const forwardTo = qp.get('forwardTo');
+
+    if (replyTo) {
+      const msg = this.mailbox.getMessageById(replyTo);
+      if (msg) {
+        const draft = this.mailbox.createReplyDraft(msg);
+        this.applyDraft(draft);
+      }
+    } else if (forwardTo) {
+      const msg = this.mailbox.getMessageById(forwardTo);
+      if (msg) {
+        const draft = this.mailbox.createForwardDraft(msg);
+        this.applyDraft(draft);
+      }
+    }
+  }
+
+  private applyDraft(draft: MessageDraft): void {
+    this.form.patchValue({
+      to: draft.to ?? '',
+      subject: draft.subject ?? '',
+      body: draft.body ?? '',
+    });
+
+    this.attachments = draft.attachments ?? [];
+  }
 
   onFilesSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -35,7 +67,6 @@ export class ComposeComponent {
     }));
 
     this.attachments = [...this.attachments, ...selected];
-
     input.value = '';
   }
 
@@ -49,7 +80,7 @@ export class ComposeComponent {
       return;
     }
 
-    const draft = {
+    const draft: MessageDraft = {
       to: this.form.value.to ?? '',
       subject: this.form.value.subject ?? '',
       body: this.form.value.body ?? '',
@@ -57,7 +88,6 @@ export class ComposeComponent {
     };
 
     this.mailbox.sendMessage(draft);
-
     this.router.navigateByUrl('/app/outbox');
   }
 }
