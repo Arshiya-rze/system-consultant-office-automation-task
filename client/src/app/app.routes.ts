@@ -7,9 +7,10 @@ import { MessageViewComponent } from './features/mailbox/pages/message-view/mess
 import { OutboxComponent } from './features/mailbox/pages/outbox/outbox.component';
 import { NotesComponent } from './features/notes/pages/notes/notes.component';
 import { AppLayoutComponent } from './features/shell/layout/app-layout/app-layout.component';
+import { guestGuard } from './core/guards/guest.guard';
 
 export const routes: Routes = [
-    { path: 'login', component: LoginComponent },
+    { path: 'login', component: LoginComponent, canActivate: [guestGuard] },
 
     {
         path: 'app',
