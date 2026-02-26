@@ -4,6 +4,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Attachment, MessageDraft } from '../../models/mail.model';
 import { MailboxService } from '../../services/mailbox.service';
+import { CanComponentDeactivate } from '../../../../core/guards/can-component-deactivate';
 
 @Component({
   selector: 'app-compose',
@@ -11,13 +12,14 @@ import { MailboxService } from '../../services/mailbox.service';
   templateUrl: './compose.component.html',
   styleUrl: './compose.component.scss'
 })
-export class ComposeComponent {
+export class ComposeComponent implements CanComponentDeactivate{
   private fb = inject(FormBuilder);
   private mailbox = inject(MailboxService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
   attachments: Attachment[] = [];
+  isSending: boolean = false;
 
   form = this.fb.group({
     to: ['', [Validators.required]],
@@ -75,8 +77,11 @@ export class ComposeComponent {
   }
 
   send(): void {
+    this.isSending = true;
+
     if (this.form.invalid) {
       this.form.markAllAsTouched();
+      this.isSending = false; 
       return;
     }
 
@@ -88,6 +93,12 @@ export class ComposeComponent {
     };
 
     this.mailbox.sendMessage(draft);
+    this.form.markAsPristine();
     this.router.navigateByUrl('/app/outbox');
+  }
+
+  canDeactivate(): boolean {
+    if (this.isSending) return true;
+    return !this.form.dirty;
   }
 }
