@@ -1,4 +1,6 @@
 <div *ngIf="message; else notFound" class="card">
+  <button type="button" (click)="back()">Back</button>
+
   <div class="top">
     <h2>{{ message.subject }}</h2>
 
@@ -21,7 +23,7 @@
     <h4>Attachments</h4>
     <ul>
       <li *ngFor="let a of message.attachments">
-        {{ a.name }} — {{ a.type }} — {{ a.size }} bytes
+        {{ a.name }} — {{ a.type }} — {{ a.size | fileSize }}
       </li>
     </ul>
   </div>

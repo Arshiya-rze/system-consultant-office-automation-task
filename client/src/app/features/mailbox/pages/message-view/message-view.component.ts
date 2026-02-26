@@ -3,10 +3,15 @@ import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Message } from '../../models/mail.model';
 import { MailboxService } from '../../services/mailbox.service';
+import { Location } from '@angular/common';
+import { FileSizePipe } from '../../../../core/shared/pipes/file-size.pipe';
 
 @Component({
   selector: 'app-message-view',
-  imports: [CommonModule, RouterLink, DatePipe],
+  imports: [
+    CommonModule, RouterLink, DatePipe,
+    FileSizePipe
+  ],
   templateUrl: './message-view.component.html',
   styleUrl: './message-view.component.scss'
 })
@@ -17,7 +22,7 @@ private route = inject(ActivatedRoute);
 
   message?: Message;
 
-  constructor() {
+  constructor(private location: Location) {
     const id = this.route.snapshot.paramMap.get('id') ?? '';
     this.message = this.mailbox.getMessageById(id);
   }
@@ -30,5 +35,10 @@ private route = inject(ActivatedRoute);
   forward(): void {
     if (!this.message) return;
     this.router.navigate(['/app/compose'], { queryParams: { forwardTo: this.message.id } });
+  }
+
+  back() {
+    if (window.history.length > 1) this.location.back();
+    else this.router.navigateByUrl('/inbox');
   }
 }
