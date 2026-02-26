@@ -13,7 +13,7 @@ export interface Message {
   to: string;
   subject: string;
   body: string;
-  createdAt: string; // ISO
+  createdAt: string;
   attachments: Attachment[];
 }
 

@@ -1,1 +1,53 @@
-<p>compose works!</p>
+<h2>Compose</h2>
+
+<form class="card" [formGroup]="form" (ngSubmit)="send()">
+  <label class="field">
+    <span>To *</span>
+    <input type="text" formControlName="to" placeholder="example@company.com" />
+    <small class="error" *ngIf="form.controls.to.touched && form.controls.to.invalid">
+      فیلد To الزامی است.
+    </small>
+  </label>
+
+  <label class="field">
+    <span>Subject *</span>
+    <input type="text" formControlName="subject" placeholder="موضوع نامه" />
+    <small class="error" *ngIf="form.controls.subject.touched && form.controls.subject.invalid">
+      فیلد Subject الزامی است.
+    </small>
+  </label>
+
+  <label class="field">
+    <span>Body</span>
+    <textarea rows="6" formControlName="body" placeholder="متن نامه..."></textarea>
+  </label>
+
+  <div class="attach">
+    <div class="attach-head">
+      <span>Attachments</span>
+      <label class="file-btn">
+        انتخاب فایل
+        <input type="file" multiple (change)="onFilesSelected($event)" />
+      </label>
+    </div>
+
+    <div class="attach-list" *ngIf="attachments.length; else noAttach">
+      <div class="attach-item" *ngFor="let a of attachments; let i = index">
+        <div class="info">
+          <div class="name">{{ a.name }}</div>
+          <div class="meta">{{ a.type }} • {{ a.size }} bytes</div>
+        </div>
+        <button type="button" class="remove" (click)="removeAttachment(i)">حذف</button>
+      </div>
+    </div>
+
+    <ng-template #noAttach>
+      <div class="empty">فایلی انتخاب نشده است.</div>
+    </ng-template>
+  </div>
+
+  <div class="actions">
+    <button class="btn primary" type="submit">Send</button>
+    <a class="btn" routerLink="/app/outbox">Cancel</a>
+  </div>
+</form>
