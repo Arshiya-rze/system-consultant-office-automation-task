@@ -1,0 +1,159 @@
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.panel {
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 14px;
+  background: #fff;
+}
+
+.panel-title {
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.row {
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 12px;
+  cursor: pointer;
+}
+
+.row:hover {
+  background: #fafafa;
+}
+
+.row.active {
+  background: #f3f6ff;
+  border-color: #d7deff;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.title {
+  font-weight: 700;
+}
+
+.meta {
+  margin-top: 6px;
+  color: #666;
+  font-size: 12px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  span {
+    font-size: 13px;
+    color: #333;
+  }
+
+  input,
+  textarea {
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    outline: none;
+    font-family: inherit;
+  }
+
+  input:focus,
+  textarea:focus {
+    border-color: #9aa7ff;
+  }
+}
+
+.error {
+  color: #b00020;
+  font-size: 12px;
+}
+
+.btn {
+  border: 1px solid #ddd;
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px 12px;
+  cursor: pointer;
+  text-decoration: none;
+  color: #222;
+  width: fit-content;
+}
+
+.primary {
+  background: #f3f6ff;
+}
+
+.danger {
+  border: 1px solid #ffd7d7;
+  background: #fff5f5;
+  color: #b00020;
+  border-radius: 10px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.divider {
+  height: 1px;
+  background: #eee;
+  margin: 14px 0;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.d-title {
+  font-weight: 800;
+  font-size: 16px;
+}
+
+.d-meta {
+  color: #666;
+  font-size: 12px;
+}
+
+.d-body {
+  white-space: pre-wrap;
+  background: #fafafa;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.empty {
+  padding: 12px;
+  border: 1px dashed #ddd;
+  border-radius: 12px;
+  color: #666;
+}

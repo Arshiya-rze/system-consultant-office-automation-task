@@ -1,1 +1,63 @@
-<p>notes works!</p>
+<h2>Notes</h2>
+
+<div class="grid">
+  <section class="panel">
+    <div class="panel-title">لیست یادداشت‌ها</div>
+
+    <div class="list" *ngIf="notes.length; else empty">
+      <div
+        class="row"
+        *ngFor="let n of notes"
+        (click)="select(n)"
+        [class.active]="selectedNote?.id === n.id"
+      >
+        <div class="top">
+          <div class="title">{{ n.title }}</div>
+          <button class="danger" type="button" (click)="deleteNote(n, $event)">حذف</button>
+        </div>
+        <div class="meta">{{ n.createdAt | date:'medium' }}</div>
+      </div>
+    </div>
+
+    <ng-template #empty>
+      <div class="empty">هیچ یادداشتی وجود ندارد.</div>
+    </ng-template>
+  </section>
+
+  <section class="panel">
+    <div class="panel-title">افزودن یادداشت</div>
+
+    <form class="form" [formGroup]="form" (ngSubmit)="addNote()">
+      <label class="field">
+        <span>Title *</span>
+        <input type="text" formControlName="title" placeholder="عنوان یادداشت" />
+        <small class="error" *ngIf="form.controls.title.touched && form.controls.title.invalid">
+          عنوان الزامی است.
+        </small>
+      </label>
+
+      <label class="field">
+        <span>Body</span>
+        <textarea rows="5" formControlName="body" placeholder="متن یادداشت..."></textarea>
+      </label>
+
+      <button class="btn primary" type="submit">Add</button>
+    </form>
+
+    <div class="divider"></div>
+
+    <div class="panel-title">جزئیات</div>
+
+    <div class="details" *ngIf="selectedNote; else noSelection">
+      <div class="d-title">{{ selectedNote.title }}</div>
+      <div class="d-meta">{{ selectedNote.createdAt | date:'medium' }}</div>
+      <pre class="d-body">{{ selectedNote.body }}</pre>
+
+      <button class="btn" type="button" (click)="clearSelection()">بستن</button>
+    </div>
+
+    <ng-template #noSelection>
+      <div class="empty">یک یادداشت را از لیست انتخاب کنید.</div>
+    </ng-template>
+  </section>
+</div>
