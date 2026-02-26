@@ -8,6 +8,7 @@ import { OutboxComponent } from './features/mailbox/pages/outbox/outbox.componen
 import { NotesComponent } from './features/notes/pages/notes/notes.component';
 import { AppLayoutComponent } from './features/shell/layout/app-layout/app-layout.component';
 import { guestGuard } from './core/guards/guest.guard';
+import { UnsavedChangesGuard } from './core/guards/unsaved-changes.guard';
 
 export const routes: Routes = [
     { path: 'login', component: LoginComponent, canActivate: [guestGuard] },
@@ -20,7 +21,7 @@ export const routes: Routes = [
         { path: '', pathMatch: 'full', redirectTo: 'inbox' },
         { path: 'inbox', component: InboxComponent },
         { path: 'outbox', component: OutboxComponent },
-        { path: 'compose', component: ComposeComponent },
+        { path: 'compose', component: ComposeComponent, canDeactivate: [UnsavedChangesGuard]},
         { path: 'message-view/:id', component: MessageViewComponent },
         { path: 'notes', component: NotesComponent },
         ],
