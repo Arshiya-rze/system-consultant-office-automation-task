@@ -8,10 +8,27 @@
     </div>
 
     <nav class="menu">
-      <a routerLink="/app/inbox" routerLinkActive="active">Inbox</a>
-      <a routerLink="/app/outbox" routerLinkActive="active">Outbox</a>
-      <a routerLink="/app/notes" routerLinkActive="active">Notes</a>
-      <a routerLink="/app/compose" routerLinkActive="active">Compose</a>
+      <a routerLink="/app/inbox"
+        routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: true }">
+        Inbox
+      </a>
+
+      <a routerLink="/app/outbox"
+        routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: true }">
+        Outbox
+      </a>
+
+      <a routerLink="/app/notes"
+        routerLinkActive="active-link">
+        Notes
+      </a>
+
+      <a routerLink="/app/compose"
+        routerLinkActive="active-link">
+        Compose
+      </a>
     </nav>
 
     <div class="footer">
