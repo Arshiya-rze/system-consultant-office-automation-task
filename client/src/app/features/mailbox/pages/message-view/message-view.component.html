@@ -1,32 +1,39 @@
-<div *ngIf="message; else notFound" class="card">
-  <button type="button" (click)="back()">Back</button>
+<div *ngIf="message; else notFound" class="page">
 
-  <div class="top">
-    <h2>{{ message.subject }}</h2>
+  <div class="header">
+    <div class="title">
+      <button class="icon-btn" type="button" (click)="back()">بازگشت</button>
+      <h2>{{ message.subject }}</h2>
+    </div>
 
     <div class="actions">
       <button class="btn" type="button" (click)="reply()">Reply</button>
       <button class="btn" type="button" (click)="forward()">Forward</button>
-      <a class="btn" routerLink="/app/inbox">Back</a>
     </div>
   </div>
 
-  <div class="meta">
-    <div><b>From:</b> {{ message.from }}</div>
-    <div><b>To:</b> {{ message.to }}</div>
-    <div><b>Date:</b> {{ message.createdAt | date:'medium' }}</div>
+  <div class="card">
+    <div class="meta">
+      <span class="chip"><b>From:</b> {{ message.from }}</span>
+      <span class="chip"><b>To:</b> {{ message.to }}</span>
+      <span class="chip"><b>Date:</b> {{ message.createdAt | date:'medium' }}</span>
+    </div>
+
+    <pre class="body">{{ message.body }}</pre>
+
+    <div class="attach" *ngIf="message.attachments?.length">
+      <h4>Attachments</h4>
+
+      <ul>
+        <li *ngFor="let a of message.attachments">
+          <span class="name">{{ a.name }}</span>
+          <span class="type">{{ a.type }}</span>
+          <span class="size">{{ a.size | fileSize }}</span>
+        </li>
+      </ul>
+    </div>
   </div>
 
-  <pre class="body">{{ message.body }}</pre>
-
-  <div class="attach" *ngIf="message.attachments.length">
-    <h4>Attachments</h4>
-    <ul>
-      <li *ngFor="let a of message.attachments">
-        {{ a.name }} — {{ a.type }} — {{ a.size | fileSize }}
-      </li>
-    </ul>
-  </div>
 </div>
 
 <ng-template #notFound>

@@ -1,11 +1,24 @@
-<h2>Inbox</h2>
+<app-mail-toolbar
+  title="Inbox"
+  [count]="filteredMessages.length"
+  [search]="search"
+  (searchChange)="search = $event">
+</app-mail-toolbar>
 
-<div class="list" *ngIf="inbox.length; else empty">
-  <a class="row" *ngFor="let m of inbox" [routerLink]="['/app/message-view', m.id]">
-    <div class="subject">{{ m.subject }}</div>
-    <div class="meta">
-      <span>From: {{ m.from }}</span>
-      <span>{{ m.createdAt | date:'medium' }}</span>
+<div class="list" *ngIf="filteredMessages.length; else empty">
+  <a
+    class="row"
+    *ngFor="let m of filteredMessages"
+    [routerLink]="['/app/message-view', m.id]">
+
+    <div class="main">
+      <div class="topline">
+        <div class="from">{{ m.from }}</div>
+        <div class="date">{{ m.createdAt | date:'short' }}</div>
+      </div>
+
+      <div class="subject">{{ m.subject }}</div>
+      <div class="preview">{{ m.body }}</div>
     </div>
   </a>
 </div>

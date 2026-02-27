@@ -1,53 +1,81 @@
-<h2>Compose</h2>
+<div class="page">
 
-<form class="card" [formGroup]="form" (ngSubmit)="send()">
-  <label class="field">
-    <span>To *</span>
-    <input type="text" formControlName="to" placeholder="example@company.com" />
-    <small class="error" *ngIf="form.controls.to.touched && form.controls.to.invalid">
-      فیلد To الزامی است.
-    </small>
-  </label>
-
-  <label class="field">
-    <span>Subject *</span>
-    <input type="text" formControlName="subject" placeholder="موضوع نامه" />
-    <small class="error" *ngIf="form.controls.subject.touched && form.controls.subject.invalid">
-      فیلد Subject الزامی است.
-    </small>
-  </label>
-
-  <label class="field">
-    <span>Body</span>
-    <textarea rows="6" formControlName="body" placeholder="متن نامه..."></textarea>
-  </label>
-
-  <div class="attach">
-    <div class="attach-head">
-      <span>Attachments</span>
-      <label class="file-btn">
-        انتخاب فایل
-        <input type="file" multiple (change)="onFilesSelected($event)" />
-      </label>
+  <div class="header">
+    <div class="title">
+      <h2>Compose</h2>
+      <span class="hint">نوشتن نامه جدید</span>
     </div>
 
-    <div class="attach-list" *ngIf="attachments.length; else noAttach">
-      <div class="attach-item" *ngFor="let a of attachments; let i = index">
-        <div class="info">
-          <div class="name">{{ a.name }}</div>
-          <div class="meta">{{ a.type }} • {{ a.size }} bytes</div>
+    <div class="actions">
+      <button class="btn ghost" type="button" routerLink="/app/inbox">انصراف</button>
+      <button class="btn primary" type="button" (click)="send()" [disabled]="isSending">
+        {{ isSending ? 'در حال ارسال...' : 'ارسال' }}
+      </button>
+    </div>
+  </div>
+
+  <div class="card">
+
+    <div class="field">
+      <label>گیرنده</label>
+      <input
+        type="email"
+        placeholder="example@company.com"
+        [formControl]="form.controls.to" />
+      <small class="err" *ngIf="form.controls.to.touched && form.controls.to.invalid">
+        وارد کردن گیرنده الزامی است.
+      </small>
+    </div>
+
+    <div class="field">
+      <label>موضوع</label>
+      <input
+        type="text"
+        placeholder="موضوع نامه..."
+        [formControl]="form.controls.subject" />
+      <small class="err" *ngIf="form.controls.subject.touched && form.controls.subject.invalid">
+        موضوع الزامی است.
+      </small>
+    </div>
+
+    <div class="field">
+      <label>متن</label>
+      <textarea
+        rows="10"
+        placeholder="متن نامه را بنویسید..."
+        [formControl]="form.controls.body"></textarea>
+    </div>
+
+    <div class="attach-area">
+      <div class="attach-top">
+        <h4>Attachments</h4>
+
+        <label class="file-btn">
+          افزودن فایل
+          <input type="file" (change)="onFilesSelected($event)" multiple />
+        </label>
+      </div>
+
+      <div class="chips" *ngIf="attachments.length">
+        <div class="chip" *ngFor="let a of attachments; let i = index">
+          <span class="name">{{ a.name }}</span>
+          <span class="meta">{{ a.size | fileSize }}</span>
+          <button type="button" class="x" (click)="removeAttachment(i)">×</button>
         </div>
-        <button type="button" class="remove" (click)="removeAttachment(i)">حذف</button>
+      </div>
+
+      <div class="empty" *ngIf="!attachments.length">
+        فایلی ضمیمه نشده است.
       </div>
     </div>
 
-    <ng-template #noAttach>
-      <div class="empty">فایلی انتخاب نشده است.</div>
-    </ng-template>
   </div>
 
-  <div class="actions">
-    <button class="btn primary" type="submit">Send</button>
-    <a class="btn" routerLink="/app/outbox">Cancel</a>
+  <div class="sticky">
+    <button class="btn ghost" type="button" routerLink="/app/inbox">انصراف</button>
+    <button class="btn primary" type="button" (click)="send()" [disabled]="isSending">
+      {{ isSending ? 'در حال ارسال...' : 'ارسال' }}
+    </button>
   </div>
-</form>
+
+</div>

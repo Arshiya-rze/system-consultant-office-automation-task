@@ -5,10 +5,12 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Attachment, MessageDraft } from '../../models/mail.model';
 import { MailboxService } from '../../services/mailbox.service';
 import { CanComponentDeactivate } from '../../../../core/guards/can-component-deactivate';
+import { FileSizePipe } from "../../../../core/shared/pipes/file-size.pipe";
+import { ToastService } from '../../../../core/services/toast.service';
 
 @Component({
   selector: 'app-compose',
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, FileSizePipe],
   templateUrl: './compose.component.html',
   styleUrl: './compose.component.scss'
 })
@@ -17,6 +19,7 @@ export class ComposeComponent implements CanComponentDeactivate{
   private mailbox = inject(MailboxService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private toast = inject(ToastService);
 
   attachments: Attachment[] = [];
   isSending: boolean = false;
@@ -81,7 +84,8 @@ export class ComposeComponent implements CanComponentDeactivate{
 
     if (this.form.invalid) {
       this.form.markAllAsTouched();
-      this.isSending = false; 
+      this.isSending = false;
+      this.toast.error('لطفاً گیرنده و موضوع را کامل کنید.');
       return;
     }
 
@@ -93,8 +97,12 @@ export class ComposeComponent implements CanComponentDeactivate{
     };
 
     this.mailbox.sendMessage(draft);
+
     this.form.markAsPristine();
+    this.toast.success('نامه با موفقیت ارسال شد');
+
     this.router.navigateByUrl('/app/outbox');
+    this.isSending = false;
   }
 
   canDeactivate(): boolean {

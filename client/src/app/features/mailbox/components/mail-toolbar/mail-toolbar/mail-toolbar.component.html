@@ -1,0 +1,21 @@
+<div class="toolbar">
+  <div class="left">
+    <h2 class="title">{{ title }}</h2>
+    <span class="count" *ngIf="count">{{ count }}</span>
+  </div>
+
+  <div class="right">
+    <div class="search">
+      <input
+        type="text"
+        [value]="search"
+        (input)="onSearch(($any($event.target)).value)"
+        placeholder="جستجو در نامه‌ها..."
+      />
+    </div>
+
+    <button class="compose" type="button" (click)="goCompose()">
+      نوشتن
+    </button>
+  </div>
+</div>
