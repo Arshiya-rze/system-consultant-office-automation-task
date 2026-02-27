@@ -22,7 +22,7 @@ export class LoginComponent {
     password: ['', Validators.required],
   });
 
-  submit(): void {
+  login(): void {
     this.errorMessage = '';
 
     if (this.form.invalid) {

@@ -1,12 +1,23 @@
 <div class="login-page">
-  <div class="card">
-    <h2>ورود</h2>
+
+  <div class="login-card">
+
+    <div class="brand">
+      <img src="/assets/images/system-consultant.png" alt="System Consultant" />
+      <div class="brand-text">
+        <div class="brand-fa">مشاوران سیستم</div>
+        <div class="brand-en">System Consultant</div>
+      </div>
+    </div>
+
+    <h2 class="title">ورود</h2>
     <p class="subtitle">برای ورود، نام کاربری و رمز عبور را وارد کنید.</p>
 
-    <form [formGroup]="form" (ngSubmit)="submit()" class="form">
+    <form class="form" [formGroup]="form" (ngSubmit)="login()">
+
       <label class="field">
         <span>نام کاربری</span>
-        <input type="text" formControlName="username" placeholder="مثلاً arshiya" />
+        <input type="text" formControlName="username" placeholder="manager@m.com" />
         <small class="error" *ngIf="form.controls.username.touched && form.controls.username.invalid">
           نام کاربری الزامی است.
         </small>
@@ -14,21 +25,21 @@
 
       <label class="field">
         <span>رمز عبور</span>
-        <input type="password" formControlName="password" placeholder="********" />
+        <input type="password" formControlName="password" placeholder="••••••••" />
         <small class="error" *ngIf="form.controls.password.touched && form.controls.password.invalid">
           رمز عبور الزامی است.
         </small>
       </label>
 
-      <div class="error-box" *ngIf="errorMessage">
-        {{ errorMessage }}
-      </div>
-
-      <button class="btn" type="submit">ورود</button>
-
-      <p class="hint">
-        ورود فیک است: هر مقدار غیرخالی برای نام کاربری/رمز عبور پذیرفته می‌شود.
-      </p>
+      <button class="btn primary" type="submit" [disabled]="form.invalid">
+        ورود
+      </button>
     </form>
+
+    <div class="hint">
+      ورود در این دمو فیک است؛ هر مقدار غیرخالی برای نام کاربری/رمز پذیرفته می‌شود.
+    </div>
+
   </div>
+
 </div>
