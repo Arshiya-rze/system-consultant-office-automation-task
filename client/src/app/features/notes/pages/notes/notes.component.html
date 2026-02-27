@@ -1,8 +1,9 @@
-<h2>Notes</h2>
+<div class="page">
 
-<div class="grid">
-  <section class="panel">
-    <div class="panel-title">لیست یادداشت‌ها</div>
+  <section class="left card">
+    <h2 class="h-title">Notes</h2>
+
+    <h3 class="h-title">لیست یادداشت‌ها</h3>
 
     <div class="list" *ngIf="notes.length; else empty">
       <div
@@ -11,11 +12,20 @@
         (click)="select(n)"
         [class.active]="selectedNote?.id === n.id"
       >
-        <div class="top">
-          <div class="title">{{ n.title }}</div>
-          <button class="danger" type="button" (click)="deleteNote(n, $event)">حذف</button>
+        <div class="row-main">
+          <div class="top">
+            <div class="row-title">{{ n.title }}</div>
+
+            <button
+              class="btn danger"
+              type="button"
+              (click)="deleteNote(n, $event)">
+              حذف
+            </button>
+          </div>
+
+          <div class="row-date">{{ n.createdAt | date:'medium' }}</div>
         </div>
-        <div class="meta">{{ n.createdAt | date:'medium' }}</div>
       </div>
     </div>
 
@@ -24,10 +34,11 @@
     </ng-template>
   </section>
 
-  <section class="panel">
-    <div class="panel-title">افزودن یادداشت</div>
+  <section class="right card">
+    <h3 class="h-title">افزودن یادداشت</h3>
 
     <form class="form" [formGroup]="form" (ngSubmit)="addNote()">
+
       <label class="field">
         <span>Title *</span>
         <input type="text" formControlName="title" placeholder="عنوان یادداشت" />
@@ -46,18 +57,19 @@
 
     <div class="divider"></div>
 
-    <div class="panel-title">جزئیات</div>
+    <h3 class="h-title">جزئیات</h3>
 
     <div class="details" *ngIf="selectedNote; else noSelection">
       <div class="d-title">{{ selectedNote.title }}</div>
       <div class="d-meta">{{ selectedNote.createdAt | date:'medium' }}</div>
       <pre class="d-body">{{ selectedNote.body }}</pre>
 
-      <button class="btn" type="button" (click)="clearSelection()">بستن</button>
+      <button class="btn ghost" type="button" (click)="clearSelection()">بستن</button>
     </div>
 
     <ng-template #noSelection>
       <div class="empty">یک یادداشت را از لیست انتخاب کنید.</div>
     </ng-template>
   </section>
+
 </div>
