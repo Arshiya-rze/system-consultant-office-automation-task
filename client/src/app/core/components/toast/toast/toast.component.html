@@ -1,0 +1,7 @@
+<div class="toast"
+     *ngIf="toast.state().visible"
+     [class.success]="toast.state().type === 'success'"
+     [class.error]="toast.state().type === 'error'"
+     [class.info]="toast.state().type === 'info'">
+  {{ toast.state().message }}
+</div>
